@@ -72,7 +72,7 @@ fn test_receive_payment() {
     stop_cheat_caller_address(token_address);
 
     start_cheat_caller_address(contract_address, recipient);
-    dispatcher.receive_payment(token_address, 1000, "test");
+    dispatcher.receive_payment(token_address, 1000, "test", "user1");
     stop_cheat_caller_address(contract_address);
 
     let balance = erc20_dispatcher.balance_of(contract_address);
@@ -101,7 +101,7 @@ fn test_receive_payment_should_panic_no_reference() {
     stop_cheat_caller_address(token_address);
 
     start_cheat_caller_address(contract_address, recipient);
-    dispatcher.receive_payment(token_address, 1000, "");
+    dispatcher.receive_payment(token_address, 1000, "", "user1");
     stop_cheat_caller_address(contract_address);
 
     let balance = erc20_dispatcher.balance_of(contract_address);
@@ -170,7 +170,7 @@ fn test_receive_payment_should_panic_system_paused() {
     stop_cheat_caller_address(contract_address);
 
     start_cheat_caller_address(contract_address, recipient);
-    dispatcher.receive_payment(token_address, 1000, "test");
+    dispatcher.receive_payment(token_address, 1000, "test", "user1");
     stop_cheat_caller_address(contract_address);
 
     let balance = erc20_dispatcher.balance_of(contract_address);
@@ -218,7 +218,7 @@ fn test_withdraw() {
     stop_cheat_caller_address(token_address);
 
     start_cheat_caller_address(contract_address, recipient);
-    dispatcher.receive_payment(token_address, 1000, "test");
+    dispatcher.receive_payment(token_address, 1000, "test", "user1");
     stop_cheat_caller_address(contract_address);
 
     start_cheat_caller_address(contract_address, owner);
@@ -250,7 +250,7 @@ fn test_withdraw_should_panic_unauthorized_caller() {
     stop_cheat_caller_address(token_address);
 
     start_cheat_caller_address(contract_address, recipient);
-    dispatcher.receive_payment(token_address, 1000, "test");
+    dispatcher.receive_payment(token_address, 1000, "test", "user1");
     stop_cheat_caller_address(contract_address);
 
     dispatcher.withdraw(token_address, recipient, 500);
@@ -280,7 +280,7 @@ fn test_withdraw_should_panic_system_paused() {
     stop_cheat_caller_address(token_address);
 
     start_cheat_caller_address(contract_address, recipient);
-    dispatcher.receive_payment(token_address, 1000, "test");
+    dispatcher.receive_payment(token_address, 1000, "test", "user1");
     stop_cheat_caller_address(contract_address);
 
     start_cheat_caller_address(contract_address, owner);

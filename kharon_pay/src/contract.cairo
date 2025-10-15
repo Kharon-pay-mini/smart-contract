@@ -64,6 +64,7 @@ pub mod KharonPay {
         token: ContractAddress,
         amount: u256,
         reference: ByteArray,
+        user: ByteArray,
     }
 
     #[derive(Drop, starknet::Event)]
@@ -84,8 +85,9 @@ pub mod KharonPay {
     #[abi(embed_v0)]
     impl IKharonPayImpl of IKharonPay<ContractState> {
         fn receive_payment(
-            ref self: ContractState, token: ContractAddress, amount: u256, reference: ByteArray,
+            ref self: ContractState, token: ContractAddress, amount: u256, reference: ByteArray, user: ByteArray
         ) {
+            assert!(user.len() > 0, "User cannot be empty");
             assert!(reference.len() > 0, "Reference cannot be empty");
             assert!(token.is_non_zero(), "Token address cannot be zero");
             assert!(amount > 0, "Amount must be greater than zero");
@@ -96,7 +98,7 @@ pub mod KharonPay {
             let token_dispatcher = ERC20ABIDispatcher { contract_address: token };
             token_dispatcher.transfer_from(caller, get_contract_address(), amount);
 
-            self.emit(PaymentReceived { sender: caller, token, amount, reference });
+            self.emit(PaymentReceived { sender: caller, token, amount, reference, user } );
         }
 
 
